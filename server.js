@@ -6,13 +6,24 @@ const port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const Dishes = require('./models/dishes');
-const url = 'mongodb://localhost:27017/conFusion';
+const Books = require('./models/books');
+const url = 'mongodb://localhost:27017/table';
 const connect = mongoose.connect(url);
 
 connect.then((db) => {
   console.log("Connected correctly to server");
 }, (err) => { console.log(err); });
+
+app.post('/book/create', (req, res, next) => {
+  Books.create(req.body)
+  .then((dish) => {
+      console.log('Dish Created ', dish);
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json');
+      res.json(dish);
+  }, (err) => next(err))
+  .catch((err) => next(err));
+});
 
 app.get('/api/hello', (req, res) => {
   res.send({ express: 'Hello From Express' });
