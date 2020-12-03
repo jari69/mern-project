@@ -1,2 +1,2 @@
 # mern-project
-a project done in free time
+a side project for practicing node and react 
